@@ -1,0 +1,2 @@
+# Automanora
+Power the city.
