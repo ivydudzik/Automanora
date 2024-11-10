@@ -1,0 +1,9 @@
+.button {
+    -unity-font: initial;
+    font-size: 32px;
+    background-image: url("project://database/Assets/UI/Images/button-off.png?fileID=-1764072909&guid=4f19087bca9b19a4ba9f74fa702e59ee&type=3#button-off_0");
+    -unity-background-scale-mode: stretch-to-fill;
+    -unity-font-definition: url("project://database/Assets/UI/Font/NONTMP-MAIN.asset?fileID=11400000&guid=206c6ebf40d22964c96da51151fd85c1&type=2#NONTMP-MAIN");
+    color: rgb(16, 152, 99);
+    background-color: rgba(0, 0, 0, 0);
+}
