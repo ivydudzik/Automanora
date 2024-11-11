@@ -11,8 +11,11 @@ public class PlayerMovement : MonoBehaviour
     public float WalkSpeed;
     public float RunSpeed;
 
+    public GameObject Hand;
+
     public Inventory inventory;
     private IInventoryItem nearbyItem;
+    private Vector3 originalItemScale; // Store the original item scale
     private bool canPickUp = false;
     private bool pickUpDebugFlag = false;
 
@@ -22,15 +25,70 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 CurrentForceVelocity;
 
+    private GameObject equippedItem = null;
+
     // Start is called before the first frame update
     void Start()
     {
         Controller = GetComponent<CharacterController>();
+        inventory.ItemUsed += Inventory_ItemUsed;
+        inventory.ItemRemoved += Inventory_ItemRemoved;   
     }
+
+    private void Inventory_ItemUsed(object sender, InventoryEventArgs e)
+    {
+        IInventoryItem item = e.Item;
+
+        GameObject goItem = (item as MonoBehaviour).gameObject;
+        if (equippedItem != null)
+        {
+            UnequipItem();
+        }
+
+        EquipItem(goItem);
+    }
+
+    private void Inventory_ItemRemoved(object sender, InventoryEventArgs e)
+    {
+        IInventoryItem item = e.Item;
+
+        GameObject goItem = (item as MonoBehaviour).gameObject;
+        if (goItem == equippedItem)
+        {
+            UnequipItem(); 
+        }
+        goItem.transform.position = transform.position + transform.forward * 2f;
+        goItem.SetActive(true);
+    }
+
+    private void EquipItem(GameObject item)
+    {
+        item.SetActive(true);
+        originalItemScale = item.transform.localScale;
+        
+        item.transform.parent = Hand.transform;
+        item.transform.position = Hand.transform.position;
+        item.transform.localRotation = Quaternion.identity;
+        item.transform.localScale = Vector3.one; 
+
+        equippedItem = item; 
+    }
+
+    private void UnequipItem()
+    {
+        if (equippedItem != null)
+        {
+            equippedItem.transform.parent = null;
+            equippedItem.transform.localScale = originalItemScale; // Reset to original scale
+            equippedItem.SetActive(false);
+            
+            equippedItem = null; // Clear the equipped item
+        }
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {
-        // Check if the collider has the "PickupTrigger" tag
         if (other.CompareTag("PickupTrigger"))
         {
             // Go up to the parent to find the IInventoryItem component
@@ -41,7 +99,6 @@ public class PlayerMovement : MonoBehaviour
                 nearbyItem = item;    
                 canPickUp = true;
 
-                // Debug statement to confirm that nearbyItem has been set
                 Debug.Log("nearbyItem has been set to: " + nearbyItem);
             }
             else
@@ -104,7 +161,7 @@ public class PlayerMovement : MonoBehaviour
 
         Controller.Move(CurrentForceVelocity * Time.deltaTime);
 
-        if (canPickUp && Input.GetKeyDown(KeyCode.E))  // Check if "E" is pressed while in range
+        if (canPickUp && Input.GetKeyDown(KeyCode.E))  
         {
             inventory.AddItem(nearbyItem);    // Add the item to the inventory
             canPickUp = false;                // Reset the pickup state
@@ -126,6 +183,13 @@ public class PlayerMovement : MonoBehaviour
         {
             // Hide the UI prompt if out of range
             pickUpDebugFlag = false;
+        }
+        
+        // unequip key 
+        if (Input.GetKeyDown(KeyCode.Q) && equippedItem != null)
+        {
+            UnequipItem(); 
+            //Debug.Log("Hands are now empty.");
         }
 
     }
