@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Battery : MonoBehaviour
+public class Battery : InventoryitemBase
 {
     public int maxCharge = 1000;
     public int flowCap = 50;
@@ -19,6 +19,19 @@ public class Battery : MonoBehaviour
         var adj = amount > flowCap ? flowCap : amount;
         currCharge -= adj;
         return adj;
+    }
+
+        public override string Name
+    {
+        get
+        {
+            return "Battery Backpack";
+        }
+    }
+
+    public override void OnUse()
+    {
+        base.OnUse();
     }
     
 }

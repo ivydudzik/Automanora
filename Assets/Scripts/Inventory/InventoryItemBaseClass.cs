@@ -56,11 +56,11 @@ public class InventoryitemBase : MonoBehaviour, IInventoryItem
         gameObject.transform.position = dropPosition;
 
         // If item has a rigid body component, can add a "throwing" effect
-        // Rigidbody rb = gameObject.GetComponent<Rigidbody>();
-        // if (rb != null)
-        // {
-        //     rb.AddForce(playerTransform.forward * 5f, ForceMode.VelocityChange); 
-        // }
+        Rigidbody rb = gameObject.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.AddForce(playerTransform.forward * 5f, ForceMode.VelocityChange); 
+        }
     }
 
 }
