@@ -6,4 +6,5 @@
         <ui:Button text="Quit" parse-escape-sequences="false" display-tooltip-when-elided="false" name="ExitB" enable-rich-text="false" class="button" style="height: 426px; width: 1226px; font-size: 356px; text-overflow: clip; -unity-font-style: normal; letter-spacing: 0; translate: 0 0; scale: 0.2 0.2; transform-origin: left top; left: 50px; top: 70%; position: absolute;" />
     </ui:VisualElement>
     <ui:VisualElement name="Logo" style="flex-grow: 1; -unity-background-scale-mode: scale-to-fit; background-image: url(&quot;project://database/Assets/UI/Images/automanora-logo.png?fileID=21300000&amp;guid=c069d379a0b51d94684f1abbf5bde8d6&amp;type=3#automanora-logo&quot;); width: 1169px; height: 544px; position: absolute; top: -62px; left: 344px; right: initial; bottom: initial; transform-origin: center;" />
+    <ui:VisualElement name="FadeBlocker" style="flex-grow: 1; position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0); visibility: visible;" />
 </ui:UXML>
