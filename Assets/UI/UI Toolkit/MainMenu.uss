@@ -6,4 +6,7 @@
     -unity-font-definition: url("project://database/Assets/UI/Font/NONTMP-MAIN.asset?fileID=11400000&guid=206c6ebf40d22964c96da51151fd85c1&type=2#NONTMP-MAIN");
     color: rgb(16, 152, 99);
     background-color: rgba(0, 0, 0, 0);
+    transition-property: -unity-background-image-tint-color;
+    transition-duration: 0.1s;
+    transition-timing-function: ease-in;
 }

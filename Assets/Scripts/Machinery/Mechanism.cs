@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEditor.Animations;
 using UnityEngine;
 
@@ -27,10 +28,12 @@ public class Mechanism : MonoBehaviour
     IEnumerator PoweredUpdate()
     {
         currEnergy = Math.Clamp(currEnergy - requiredEnergy, 0, int.MaxValue);
+        PurgeInactive();
         foreach (var batt in batteriesInRange)
         {
             currEnergy += batt.GetComponent<Battery>().DrawPower(requiredEnergy / batteriesInRange.Count);
         }
+
         Debug.Log(currEnergy);
         Powered = currEnergy >= requiredEnergy;
         Debug.Log("poweredupdate: powered  = " + Powered);
@@ -38,6 +41,20 @@ public class Mechanism : MonoBehaviour
         StartCoroutine(PoweredUpdate());
     }
 
+    private void PurgeInactive()
+    {
+        List<GameObject> inactive = new();
+        foreach (var batt in batteriesInRange)
+        {
+            if (!batt.activeInHierarchy)
+            {
+                inactive.Add(batt);
+            }
+        }
+        foreach (var batt in inactive){
+            batteriesInRange.Remove(batt);
+        }
+    }
     public bool Powered
     {
         get
