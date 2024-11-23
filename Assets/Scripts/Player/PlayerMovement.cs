@@ -161,7 +161,7 @@ public class PlayerMovement : MonoBehaviour
 
         Controller.Move(CurrentForceVelocity * Time.deltaTime);
 
-        if (canPickUp && Input.GetKeyDown(KeyCode.E))  
+        if (canPickUp && Input.GetKeyDown(KeyCode.R))  
         {
             inventory.AddItem(nearbyItem);    // Add the item to the inventory
             canPickUp = false;                // Reset the pickup state

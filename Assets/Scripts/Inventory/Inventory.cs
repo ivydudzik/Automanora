@@ -8,6 +8,7 @@ public class Inventory : MonoBehaviour
 
     private const int SLOTS = 7;
     private List<IInventoryItem> mItems = new List<IInventoryItem>();
+    private int selectedSlot = 0; // Tracks the currently selected slot
     public event EventHandler<InventoryEventArgs> ItemAdded;
     public event EventHandler<InventoryEventArgs> ItemRemoved;
     public event EventHandler<InventoryEventArgs> ItemUsed;
@@ -59,5 +60,34 @@ public class Inventory : MonoBehaviour
                 ItemRemoved(this, new InventoryEventArgs(item));
             }
         }
+    }
+
+    public void DropSelectedItem()
+    {
+        if (selectedSlot < mItems.Count)
+        {
+            IInventoryItem item = mItems[selectedSlot];
+            mItems.RemoveAt(selectedSlot); // Remove item from inventory
+
+            item.OnDrop(); // Handle dropping logic
+            Collider collider = (item as MonoBehaviour).GetComponent<Collider>();
+            if (collider != null)
+            {
+                collider.enabled = true; // Re-enable collider
+            }
+
+            if (ItemRemoved != null)
+            {
+                ItemRemoved(this, new InventoryEventArgs(item));
+            }
+        }
+    }
+
+    public void ChangeSelectedSlot(int direction)
+    {
+        if (mItems.Count == 0) return;
+
+        selectedSlot = (selectedSlot + direction + SLOTS) % SLOTS; // Loop around inventory
+        Debug.Log($"Selected slot: {selectedSlot}");
     }
 }
