@@ -50,7 +50,9 @@ public class MainMenuManager : MonoBehaviour
     {
         menuContainer.Q<Button>("StartB").RegisterCallback<MouseUpEvent>((evt) => StartCoroutine(StartGame()));
         menuContainer.Q<VisualElement>("FadeBlocker").style.visibility = Visibility.Hidden;
-        menuContainer.Q<Button>("OptionsB").RegisterCallback<MouseUpEvent>((evt)=>StartCoroutine(ToggleOptions()));
+        menuContainer.Q<Button>("OptionsB").RegisterCallback<MouseUpEvent>((evt) => StartCoroutine(ToggleOptions()));
+
+        menuContainer.Q<Slider>("MainVolume").RegisterCallback<MouseUpEvent>((evt) => { });
 
     }
 
