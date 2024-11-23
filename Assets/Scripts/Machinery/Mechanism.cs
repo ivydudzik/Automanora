@@ -14,6 +14,7 @@ public class Mechanism : MonoBehaviour
     private Animator animator;
     public bool repeats = false;
     public bool hasExitAnim = false;
+    public bool pauseOnExit = false;
 
     void Start()
     {
@@ -37,6 +38,10 @@ public class Mechanism : MonoBehaviour
         Debug.Log(currEnergy);
         Powered = currEnergy >= requiredEnergy;
         Debug.Log("poweredupdate: powered  = " + Powered);
+        if(pauseOnExit)
+        {
+            animator.speed = (Powered ? 1 : 0); //reg speed if powered, 0 if not
+        }
         yield return new WaitForSeconds(1);
         StartCoroutine(PoweredUpdate());
     }
