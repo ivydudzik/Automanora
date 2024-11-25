@@ -7,6 +7,9 @@ TagManager:
   - PickupTrigger
   - PowerableMachine
   - Battery
+  - BGM
+  - SFX
+  - SettingsManager
   layers:
   - Default
   - TransparentFX

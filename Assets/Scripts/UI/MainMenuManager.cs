@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using System.Collections;
-using UnityEditor.UIElements;
-using System.Threading;
+
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -13,9 +12,13 @@ public class MainMenuManager : MonoBehaviour
 
     // Menu Container
     VisualElement menuContainer;
+    IngameSettingsManager SettingsManager;
+
+    private bool optionsVisible = false;
 
     private void Start()
     {
+        SettingsManager = GameObject.FindGameObjectWithTag("SettingsManager").GetComponent<IngameSettingsManager>();
         menuUIDocument = GetComponent<UIDocument>();
         // Get a reference to the UI container
         menuContainer = menuUIDocument.rootVisualElement.contentContainer;
@@ -49,6 +52,19 @@ public class MainMenuManager : MonoBehaviour
     {
         menuContainer.Q<Button>("StartB").RegisterCallback<MouseUpEvent>((evt) => StartCoroutine(StartGame()));
         menuContainer.Q<VisualElement>("FadeBlocker").style.visibility = Visibility.Hidden;
+        menuContainer.Q<Button>("OptionsB").RegisterCallback<MouseUpEvent>((evt) => StartCoroutine(ToggleOptions()));
+        menuContainer.Q<Button>("ApplyB").RegisterCallback<MouseUpEvent>((evt) => SettingsManager.ApplySettings());
+
+
+        menuContainer.Q<Slider>("MainVolume").value = 50;
+        menuContainer.Q<Slider>("MusicVolume").value = 50;
+        menuContainer.Q<Slider>("SFXVolume").value = 50;
+        menuContainer.Q<Slider>("MainVolume").RegisterCallback<ChangeEvent<float>>((evt) => { SettingsManager.SetMainVol(menuContainer.Q<Slider>("MainVolume").value); });
+        menuContainer.Q<Slider>("MusicVolume").RegisterCallback<ChangeEvent<float>>((evt) => { SettingsManager.SetMusicVol(menuContainer.Q<Slider>("MusicVolume").value); });
+        menuContainer.Q<Slider>("SFXVolume").RegisterCallback<ChangeEvent<float>>((evt) => { SettingsManager.SetSFXVol(menuContainer.Q<Slider>("SFXVolume").value); });
+        SettingsManager.SetMainVol(50);
+        SettingsManager.SetMusicVol(50);
+        SettingsManager.SetSFXVol(50);
 
 
     }
@@ -63,24 +79,42 @@ public class MainMenuManager : MonoBehaviour
             yield return null;
         }
     }
+    private IEnumerator ToggleOptions()
+    {
+        if (!optionsVisible)
+        {
+            yield return StartCoroutine(FBIn(0.01f));
+            menuContainer.Q<VisualElement>("MM").style.display = DisplayStyle.None;
+            menuContainer.Q<VisualElement>("OPT").style.display = DisplayStyle.Flex;
+            yield return StartCoroutine(FBOut(0.01f));
+        }
+        else
+        {
+            yield return StartCoroutine(FBIn(0.01f));
+            menuContainer.Q<VisualElement>("MM").style.display = DisplayStyle.Flex;
+            menuContainer.Q<VisualElement>("OPT").style.display = DisplayStyle.None;
+            yield return StartCoroutine(FBOut(0.01f));
+        }
+        optionsVisible = !optionsVisible;
+    }
 
-    private IEnumerator FBIn()
+    private IEnumerator FBIn(float rate = 0.005f)
     {
         VisualElement FadeBlocker = menuContainer.Q<VisualElement>("FadeBlocker");
         menuContainer.Q<VisualElement>("FadeBlocker").style.visibility = Visibility.Visible;
         Debug.Log(FadeBlocker.style.backgroundColor.value.a);
         while (FadeBlocker.style.backgroundColor.value.a < 1)
         {
-            FadeBlocker.style.backgroundColor = new Color(0, 0, 0, FadeBlocker.style.backgroundColor.value.a + 0.005f);
+            FadeBlocker.style.backgroundColor = new Color(0, 0, 0, FadeBlocker.style.backgroundColor.value.a + rate);
             yield return new WaitForSeconds(0.01f);
         }
     }
-    private IEnumerator FBOut()
+    private IEnumerator FBOut(float rate = 0.005f)
     {
         VisualElement FadeBlocker = menuContainer.Q<VisualElement>("FadeBlocker");
         while (FadeBlocker.style.backgroundColor.value.a > 0f)
         {
-            FadeBlocker.style.backgroundColor = new Color(0, 0, 0, FadeBlocker.style.backgroundColor.value.a - 0.005f);
+            FadeBlocker.style.backgroundColor = new Color(0, 0, 0, FadeBlocker.style.backgroundColor.value.a - rate);
             yield return new WaitForSeconds(0.01f);
         }
         menuContainer.Q<VisualElement>("FadeBlocker").style.visibility = Visibility.Hidden;
