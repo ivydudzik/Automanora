@@ -9,6 +9,7 @@ TagManager:
   - Battery
   - BGM
   - SFX
+  - SettingsManager
   layers:
   - Default
   - TransparentFX

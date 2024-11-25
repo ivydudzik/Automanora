@@ -12,11 +12,13 @@ public class MainMenuManager : MonoBehaviour
 
     // Menu Container
     VisualElement menuContainer;
+    IngameSettingsManager SettingsManager;
 
     private bool optionsVisible = false;
 
     private void Start()
     {
+        SettingsManager = GameObject.FindGameObjectWithTag("SettingsManager").GetComponent<IngameSettingsManager>();
         menuUIDocument = GetComponent<UIDocument>();
         // Get a reference to the UI container
         menuContainer = menuUIDocument.rootVisualElement.contentContainer;
@@ -51,8 +53,19 @@ public class MainMenuManager : MonoBehaviour
         menuContainer.Q<Button>("StartB").RegisterCallback<MouseUpEvent>((evt) => StartCoroutine(StartGame()));
         menuContainer.Q<VisualElement>("FadeBlocker").style.visibility = Visibility.Hidden;
         menuContainer.Q<Button>("OptionsB").RegisterCallback<MouseUpEvent>((evt) => StartCoroutine(ToggleOptions()));
+        menuContainer.Q<Button>("ApplyB").RegisterCallback<MouseUpEvent>((evt) => SettingsManager.ApplySettings());
 
-        menuContainer.Q<Slider>("MainVolume").RegisterCallback<MouseUpEvent>((evt) => { });
+
+        menuContainer.Q<Slider>("MainVolume").value = 50;
+        menuContainer.Q<Slider>("MusicVolume").value = 50;
+        menuContainer.Q<Slider>("SFXVolume").value = 50;
+        menuContainer.Q<Slider>("MainVolume").RegisterCallback<ChangeEvent<float>>((evt) => { SettingsManager.SetMainVol(menuContainer.Q<Slider>("MainVolume").value); });
+        menuContainer.Q<Slider>("MusicVolume").RegisterCallback<ChangeEvent<float>>((evt) => { SettingsManager.SetMusicVol(menuContainer.Q<Slider>("MusicVolume").value); });
+        menuContainer.Q<Slider>("SFXVolume").RegisterCallback<ChangeEvent<float>>((evt) => { SettingsManager.SetSFXVol(menuContainer.Q<Slider>("SFXVolume").value); });
+        SettingsManager.SetMainVol(50);
+        SettingsManager.SetMusicVol(50);
+        SettingsManager.SetSFXVol(50);
+
 
     }
 

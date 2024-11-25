@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 88713485971122917}
   - component: {fileID: 7886094046335810592}
-  - component: {fileID: 7037947316303416921}
+  - component: {fileID: 8457715435346997881}
   m_Layer: 0
   m_Name: playerStander
   m_TagString: Untagged
@@ -54,7 +54,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7037947316303416921
+--- !u!114 &8457715435346997881
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

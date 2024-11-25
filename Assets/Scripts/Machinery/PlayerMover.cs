@@ -5,24 +5,20 @@ using UnityEngine;
 public class PlayerMover : MonoBehaviour
 {
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnTriggerEnter(Collider other)
     {
-        other.gameObject.transform.SetParent(transform);
+        if (other.CompareTag("Player") || other.CompareTag("Battery"))
+        {
+            other.gameObject.transform.SetParent(transform);
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        other.gameObject.transform.parent = null;
+        if (other.CompareTag("Player") || other.CompareTag("Battery"))
+        {
+            other.gameObject.transform.parent = null;
+        }
     }
 }

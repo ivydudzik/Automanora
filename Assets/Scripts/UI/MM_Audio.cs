@@ -10,15 +10,14 @@ public class MM_Audio : MonoBehaviour
     void Start()
     {
         aud = GetComponent<AudioSource>();
-        aud.volume = 0.0f;
+        aud.volume = 0.5f;
         StartCoroutine(IntroToFull());
     }
 
     IEnumerator IntroToFull()
     {
         while (aud.isPlaying)
-        {   yield return new WaitForSeconds(0.01f);
-            aud.volume = Mathf.Clamp(aud.volume + 0.001f, 0, 0.3f);
+        {
             yield return null;
         }
         aud.clip = fullSong;
