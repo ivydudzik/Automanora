@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // Movement tutorial from Rytech: https://www.youtube.com/watch?v=TOPj3uHZgQk
 public class PlayerMovement : MonoBehaviour
@@ -26,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 CurrentForceVelocity;
 
     private GameObject equippedItem = null;
+    public LoadManager loadManager;
 
     // Start is called before the first frame update
     void Start()
@@ -191,6 +194,21 @@ public class PlayerMovement : MonoBehaviour
             UnequipItem(); 
             //Debug.Log("Hands are now empty.");
         }
+
+        //* MANUAL SCENE CHANGE TESTING
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            loadManager.SavePositions();
+            Debug.Log("error");
+            SceneManager.LoadScene(1);
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            loadManager.SavePositions();
+            Debug.Log("error");
+            SceneManager.LoadScene(2);
+        }
+        //*/
 
     }
 }

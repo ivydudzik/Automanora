@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Prototype 11-14-24/Gameplay.unity
     guid: 64d298e31a635f345921001ff19ea8bb
+  - enabled: 1
+    path: Assets/Scenes/Grayboxes/BrianGraybox.unity
+    guid: ac8daa90661ccf84692444d6b741f07b
   m_configObjects: {}
