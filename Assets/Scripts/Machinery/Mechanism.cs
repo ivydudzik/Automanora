@@ -78,6 +78,8 @@ public class Mechanism : MonoBehaviour
         if (col.gameObject.CompareTag("Battery"))
         {
             batteriesInRange.Add(col.gameObject);
+            //activate particle effects
+            col.gameObject.GetComponent<ParticleSystem>().Play();
         }
     }
     void OnTriggerExit(Collider col)
@@ -85,6 +87,8 @@ public class Mechanism : MonoBehaviour
         if (col.gameObject.CompareTag("Battery"))
         {
             batteriesInRange.Remove(col.gameObject);
+            //de-activate particle effects
+            col.gameObject.GetComponent<ParticleSystem>().Stop();
         }
     }
 
