@@ -2944,6 +2944,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2353550343571314472, guid: a760ca9bb79c11247b88fde12a544862,
         type: 3}
+      propertyPath: loadManager
+      value: 
+      objectReference: {fileID: 1791581240}
+    - target: {fileID: 2353550343571314472, guid: a760ca9bb79c11247b88fde12a544862,
+        type: 3}
       propertyPath: SceneController
       value: 
       objectReference: {fileID: 1563525132}

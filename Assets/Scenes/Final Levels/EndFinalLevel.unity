@@ -3554,6 +3554,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2353550343571314472, guid: a760ca9bb79c11247b88fde12a544862,
         type: 3}
+      propertyPath: loadManager
+      value: 
+      objectReference: {fileID: 1791581240}
+    - target: {fileID: 2353550343571314472, guid: a760ca9bb79c11247b88fde12a544862,
+        type: 3}
       propertyPath: SceneController
       value: 
       objectReference: {fileID: 456297941}
@@ -10963,6 +10968,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3245933559881179306, guid: 56559165f9a16ca40afb61dd9d91a2bb,
         type: 3}
+      propertyPath: Hand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3245933559881179306, guid: 56559165f9a16ca40afb61dd9d91a2bb,
+        type: 3}
+      propertyPath: RunSpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3245933559881179306, guid: 56559165f9a16ca40afb61dd9d91a2bb,
+        type: 3}
+      propertyPath: WalkSpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3245933559881179306, guid: 56559165f9a16ca40afb61dd9d91a2bb,
+        type: 3}
       propertyPath: inventory
       value: 
       objectReference: {fileID: 1982762426}
@@ -10971,6 +10991,21 @@ PrefabInstance:
       propertyPath: loadManager
       value: 
       objectReference: {fileID: 1791581240}
+    - target: {fileID: 3245933559881179306, guid: 56559165f9a16ca40afb61dd9d91a2bb,
+        type: 3}
+      propertyPath: JumpStrength
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3245933559881179306, guid: 56559165f9a16ca40afb61dd9d91a2bb,
+        type: 3}
+      propertyPath: MoveSmoothTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3245933559881179306, guid: 56559165f9a16ca40afb61dd9d91a2bb,
+        type: 3}
+      propertyPath: GravityStrength
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3334760944262128026, guid: 56559165f9a16ca40afb61dd9d91a2bb,
         type: 3}
       propertyPath: m_Enabled
@@ -11002,9 +11037,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 3245933559881179306, guid: 56559165f9a16ca40afb61dd9d91a2bb, type: 3}
     - {fileID: 4007171663393101763, guid: 56559165f9a16ca40afb61dd9d91a2bb, type: 3}
-    - {fileID: 7442826805469392682, guid: 56559165f9a16ca40afb61dd9d91a2bb, type: 3}
     - {fileID: 3334760944262128026, guid: 56559165f9a16ca40afb61dd9d91a2bb, type: 3}
     m_RemovedGameObjects:
     - {fileID: 7894154483671789382, guid: 56559165f9a16ca40afb61dd9d91a2bb, type: 3}
