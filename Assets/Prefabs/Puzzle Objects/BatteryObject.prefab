@@ -71,7 +71,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3839722368e387448ffefa4def233ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Image: {fileID: 21300000, guid: 5796da0b60e82fe4a93f50304beb3b65, type: 3}
+  _Image: {fileID: 21300000, guid: f4c5aec0eba3e4f49a6137ba93acbef7, type: 3}
   maxCharge: 1000
   flowCap: 50
   currCharge: 0
