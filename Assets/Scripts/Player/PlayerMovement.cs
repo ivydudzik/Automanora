@@ -134,15 +134,15 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void setInventory(int Count)
+    public void setInventory(int count)
     {
-        IInventoryItem item = InventoryObjectPrefab.transform.gameObject.GetComponent<IInventoryItem>();
-        for (int i = 0; i < Count; i++)
+        Debug.LogWarning("Setting inventory to " + count);
+        for (int i = 0; i < count; i++)
         {
-            inventory.AddItem(item);
+            // Instantiate a new inventory item in front of the player
+            Instantiate(InventoryObjectPrefab, transform.position + transform.forward * 2f, Quaternion.identity);
         }
     }
-
 
     // Update is called once per frame
     void Update()
@@ -260,12 +260,14 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.O))
         {
             loadManager.SavePositions();
+            loadManager.SaveInventory();
             Debug.Log("error");
             SceneManager.LoadScene(1);
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
             loadManager.SavePositions();
+            loadManager.SaveInventory();
             Debug.Log("error");
             SceneManager.LoadScene(2);
         }

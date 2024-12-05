@@ -33,8 +33,8 @@ public class LoadManager : MonoBehaviour
         baseFilePath = Path.Combine(Application.persistentDataPath, "SceneData_");
 
         // Load positions for the current scene
-        LoadInventory();
         LoadPositions();
+        LoadInventory();
     }
 
 
@@ -64,7 +64,7 @@ public class LoadManager : MonoBehaviour
     public void SaveInventory()
     {
         int invCount = inventoryManager.getInventory();
-        if(invCount != null)
+        if(invCount != 0)
         {
             string inventory = invCount.ToString();
             File.WriteAllText(GetInventoryFilePath(), inventory);
