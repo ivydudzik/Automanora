@@ -89,10 +89,6 @@ public class Inventory : MonoBehaviour
         return mItems.Count;
     }
 
-    public void setInventory(int itemCount)
-    {
-    }
-
     public void ChangeSelectedSlot(int direction)
     {
         if (mItems.Count == 0) return;

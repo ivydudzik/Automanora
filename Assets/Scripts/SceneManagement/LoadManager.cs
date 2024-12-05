@@ -24,6 +24,7 @@ public class LoadManager : MonoBehaviour
 {
     public List<GameObject> objectsToSave; // Assign objects to save in the Inspector
     public Inventory inventoryManager;
+    public PlayerMovement playerMovement;
     private string baseFilePath;
 
     private void Awake()
@@ -111,7 +112,7 @@ public class LoadManager : MonoBehaviour
             string inventoryData = File.ReadAllText(inventoryFilePath);
             if (int.TryParse(inventoryData, out int invCount))
             {
-                inventoryManager.setInventory(invCount); // Replace with your method to set the inventory count
+                playerMovement.setInventory(invCount); // Replace with your method to set the inventory count
                 Debug.Log("Inventory loaded from " + inventoryFilePath);
             }
             else

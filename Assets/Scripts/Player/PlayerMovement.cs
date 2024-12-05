@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public float RunSpeed;
 
     public GameObject Hand;
+    public GameObject InventoryObjectPrefab;
 
     public Inventory inventory;
     private IInventoryItem nearbyItem;
@@ -93,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
             equippedItem.transform.parent = null;
             equippedItem.transform.localScale = originalItemScale; // Reset to original scale
             equippedItem.SetActive(false);
-            
+
             equippedItem = null; // Clear the equipped item
         }
     }
@@ -130,6 +131,15 @@ public class PlayerMovement : MonoBehaviour
                 nearbyItem = null;   
                 canPickUp = false;    
             }
+        }
+    }
+
+    public void setInventory(int Count)
+    {
+        IInventoryItem item = InventoryObjectPrefab.transform.gameObject.GetComponent<IInventoryItem>();
+        for (int i = 0; i < Count; i++)
+        {
+            inventory.AddItem(item);
         }
     }
 
