@@ -14,12 +14,14 @@ public class PlayerMovement : MonoBehaviour
     public float RunSpeed;
 
     public GameObject Hand;
+    public GameObject InventoryObjectPrefab;
 
     public Inventory inventory;
     private IInventoryItem nearbyItem;
     private Vector3 originalItemScale; // Store the original item scale
     private bool canPickUp = false;
     private bool pickUpDebugFlag = false;
+    private bool isGrounded = false;
 
     private CharacterController Controller;
     private Vector3 CurrentMoveVelocity;
@@ -33,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
     ParticleSystem movementParticles;
     public int particleCountWalk = 5;
     public int particleCountRun = 10;
+    private float footstepInterval = 0.5f; // Walking interval
+    private float runningFootstepInterval = 0.3f; // Running interval
 
     // Start is called before the first frame update
     void Start()
@@ -90,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
             equippedItem.transform.parent = null;
             equippedItem.transform.localScale = originalItemScale; // Reset to original scale
             equippedItem.SetActive(false);
-            
+
             equippedItem = null; // Clear the equipped item
         }
     }
@@ -130,6 +134,15 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void setInventory(int count)
+    {
+        Debug.LogWarning("Setting inventory to " + count);
+        for (int i = 0; i < count; i++)
+        {
+            // Instantiate a new inventory item in front of the player
+            Instantiate(InventoryObjectPrefab, transform.position + transform.forward * 2f, Quaternion.identity);
+        }
+    }
 
     // Update is called once per frame
     void Update()
@@ -146,6 +159,23 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 MoveVector = transform.TransformDirection(PlayerInput);
         float CurrentSpeed = Input.GetKey(KeyCode.LeftShift) ? RunSpeed : WalkSpeed;    // Hold shift to run
+        float currentInterval = Input.GetKey(KeyCode.LeftShift) ? runningFootstepInterval : footstepInterval;
+
+        if (PlayerInput.magnitude > 0.1f && isGrounded) 
+        {
+            // Adjust pitch for walking or running
+            float pitch = Input.GetKey(KeyCode.LeftShift) ? 1.5f : 1.0f;
+            AudioManager.Instance.SetPitch("WalkRun", pitch);
+
+            // Start looping sound if not already playing
+            AudioManager.Instance.PlayLoopingSound("WalkRun");
+        }
+        else
+        {
+            // Stop the sound when stationary
+            AudioManager.Instance.StopSound("WalkRun");
+        }
+
 
         //particle handling
         
@@ -183,13 +213,17 @@ public class PlayerMovement : MonoBehaviour
         Ray groundCheckRay = new Ray(transform.position, Vector3.down);
         if (Physics.Raycast(groundCheckRay, 1.1f)){
             //movementParticles.Play(); //on ground, run particles
+            isGrounded = true;
             CurrentForceVelocity.y = -2f;   //constant force appplied to th player for slopes
 
             if (Input.GetKey(KeyCode.Space)){
+                
+                AudioManager.Instance.PlaySound("Jump"); 
                 CurrentForceVelocity.y = JumpStrength;
             }
         }
         else{
+            isGrounded = false;
             CurrentForceVelocity.y -= GravityStrength * Time.deltaTime;
 
             myEmission.rateOverTime = 0; //not on ground, stop particles. overrides previous lines setting rate
@@ -202,6 +236,7 @@ public class PlayerMovement : MonoBehaviour
             inventory.AddItem(nearbyItem);    // Add the item to the inventory
             canPickUp = false;                // Reset the pickup state
             nearbyItem = null;                // Clear the item reference
+            AudioManager.Instance.PlaySound("BatteryPickup"); // Play the pickup sound
             Debug.Log("Item Picked Up");
         }
 
@@ -211,7 +246,7 @@ public class PlayerMovement : MonoBehaviour
             // Code to show UI prompt
             // "Press E to pick up"
             if (!pickUpDebugFlag){
-                Debug.Log("Press E to Pick Up");
+                Debug.Log("Press R to Pick Up");
                 pickUpDebugFlag = true;
             }
         }
@@ -220,24 +255,19 @@ public class PlayerMovement : MonoBehaviour
             // Hide the UI prompt if out of range
             pickUpDebugFlag = false;
         }
-        
-        // unequip key 
-        if (Input.GetKeyDown(KeyCode.Q) && equippedItem != null)
-        {
-            UnequipItem(); 
-            //Debug.Log("Hands are now empty.");
-        }
 
         //* MANUAL SCENE CHANGE TESTING
         if (Input.GetKeyDown(KeyCode.O))
         {
             loadManager.SavePositions();
+            loadManager.SaveInventory();
             Debug.Log("error");
             SceneManager.LoadScene(1);
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
             loadManager.SavePositions();
+            loadManager.SaveInventory();
             Debug.Log("error");
             SceneManager.LoadScene(2);
         }

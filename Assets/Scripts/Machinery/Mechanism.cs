@@ -16,11 +16,26 @@ public class Mechanism : MonoBehaviour
     public bool hasExitAnim = false;
     public bool pauseOnExit = false;
 
+    [SerializeField] private string powerOnSound;  // Sound when powered on
+    [SerializeField] private string powerOffSound; // Sound when powered off
+    [SerializeField] private string activeLoopSound; // Optional looping sound during operation
+
     void Start()
     {
         animator = GetComponent<Animator>();
         batteriesInRange = new List<GameObject>();
         if (!animator) { throw new Exception("Mechanism was not provided with an animator!"); }
+        
+        // Assign default sound names if not set in Inspector
+        if (string.IsNullOrEmpty(powerOnSound))
+        {
+            powerOnSound = "DefaultPowerOn"; // Replace with your actual default sound name
+        }
+        if (string.IsNullOrEmpty(powerOffSound))
+        {
+            powerOffSound = "DefaultPowerOff"; // Replace with your actual default sound name
+        }
+        
         animator.SetBool("Repeats", repeats);
         animator.SetBool("HasExitAnim", hasExitAnim);
         StartCoroutine(PoweredUpdate());
@@ -68,10 +83,37 @@ public class Mechanism : MonoBehaviour
         }
         set
         {
-            isPowered = value;
-            animator.SetBool("Powered", value);
+            if (isPowered != value) // Only trigger audio if the state changes
+            {
+                isPowered = value;
+                animator.SetBool("Powered", value);
+
+                if (isPowered)
+                {
+                    // Play power-on sound
+                    AudioManager.Instance.PlaySound(powerOnSound);
+
+                    // Start a looping sound if specified
+                    if (!string.IsNullOrEmpty(activeLoopSound))
+                    {
+                        AudioManager.Instance.PlayLoopingSound(activeLoopSound);
+                    }
+                }
+                else
+                {
+                    // Stop looping sound
+                    if (!string.IsNullOrEmpty(activeLoopSound))
+                    {
+                        AudioManager.Instance.StopSound(activeLoopSound);
+                    }
+
+                    // Play power-off sound
+                    AudioManager.Instance.PlaySound(powerOffSound);
+                }
+            }
         }
     }
+
 
     void OnTriggerEnter(Collider col)
     {

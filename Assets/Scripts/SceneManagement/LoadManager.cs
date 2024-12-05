@@ -24,6 +24,7 @@ public class LoadManager : MonoBehaviour
 {
     public List<GameObject> objectsToSave; // Assign objects to save in the Inspector
     public Inventory inventoryManager;
+    public PlayerMovement playerMovement;
     private string baseFilePath;
 
     private void Awake()
@@ -32,8 +33,8 @@ public class LoadManager : MonoBehaviour
         baseFilePath = Path.Combine(Application.persistentDataPath, "SceneData_");
 
         // Load positions for the current scene
-        LoadInventory();
         LoadPositions();
+        LoadInventory();
     }
 
 
@@ -63,7 +64,7 @@ public class LoadManager : MonoBehaviour
     public void SaveInventory()
     {
         int invCount = inventoryManager.getInventory();
-        if(invCount != null)
+        if(invCount != 0)
         {
             string inventory = invCount.ToString();
             File.WriteAllText(GetInventoryFilePath(), inventory);
@@ -111,7 +112,7 @@ public class LoadManager : MonoBehaviour
             string inventoryData = File.ReadAllText(inventoryFilePath);
             if (int.TryParse(inventoryData, out int invCount))
             {
-                inventoryManager.setInventory(invCount); // Replace with your method to set the inventory count
+                playerMovement.setInventory(invCount); // Replace with your method to set the inventory count
                 Debug.Log("Inventory loaded from " + inventoryFilePath);
             }
             else
