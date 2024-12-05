@@ -8,6 +8,7 @@ public class Inventory : MonoBehaviour
 
     private const int SLOTS = 7;
     private List<IInventoryItem> mItems = new List<IInventoryItem>();
+    public GameObject itemPrefab;
     private int selectedSlot = 0; // Tracks the currently selected slot
     public event EventHandler<InventoryEventArgs> ItemAdded;
     public event EventHandler<InventoryEventArgs> ItemRemoved;
@@ -81,6 +82,15 @@ public class Inventory : MonoBehaviour
                 ItemRemoved(this, new InventoryEventArgs(item));
             }
         }
+    }
+
+    public int getInventory()
+    {
+        return mItems.Count;
+    }
+
+    public void setInventory(int itemCount)
+    {
     }
 
     public void ChangeSelectedSlot(int direction)

@@ -23,6 +23,7 @@ public class ObjectData
 public class LoadManager : MonoBehaviour
 {
     public List<GameObject> objectsToSave; // Assign objects to save in the Inspector
+    public Inventory inventoryManager;
     private string baseFilePath;
 
     private void Awake()
@@ -31,8 +32,10 @@ public class LoadManager : MonoBehaviour
         baseFilePath = Path.Combine(Application.persistentDataPath, "SceneData_");
 
         // Load positions for the current scene
+        LoadInventory();
         LoadPositions();
     }
+
 
     public void SavePositions()
     {
@@ -55,6 +58,18 @@ public class LoadManager : MonoBehaviour
         File.WriteAllText(GetSceneFilePath(), json);
 
         Debug.Log("Positions saved to " + GetSceneFilePath());
+    }
+
+    public void SaveInventory()
+    {
+        int invCount = inventoryManager.getInventory();
+        if(invCount != null)
+        {
+            string inventory = invCount.ToString();
+            File.WriteAllText(GetInventoryFilePath(), inventory);
+        }
+
+
     }
 
     private void LoadPositions()
@@ -88,12 +103,37 @@ public class LoadManager : MonoBehaviour
             Debug.LogWarning("Save file not found at " + sceneFilePath + ". Using default positions.");
         }
     }
+    private void LoadInventory()
+    {
+        string inventoryFilePath = GetInventoryFilePath();
+        if (File.Exists(inventoryFilePath))
+        {
+            string inventoryData = File.ReadAllText(inventoryFilePath);
+            if (int.TryParse(inventoryData, out int invCount))
+            {
+                inventoryManager.setInventory(invCount); // Replace with your method to set the inventory count
+                Debug.Log("Inventory loaded from " + inventoryFilePath);
+            }
+            else
+            {
+                Debug.LogError("Failed to parse inventory data.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Save file not found at " + inventoryFilePath + ". Using default inventory.");
+        }
+    }
 
     private string GetSceneFilePath()
     {
         // Include scene name in the file name for scene-specific saving
         string sceneName = SceneManager.GetActiveScene().name;
         return baseFilePath + sceneName + ".json";
+    }
+    private string GetInventoryFilePath()
+    {
+        return baseFilePath + "inventory.json";
     }
 
     [System.Serializable]
