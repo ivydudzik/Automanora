@@ -14,22 +14,26 @@ public class LevelEndVolume : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        loadManager.SavePositions();
-        loadManager.SaveInventory();
-        if(NextScene == "StartScene")
+        Debug.Log(other.tag+" entered end level");
+        if (other.CompareTag("Player"))// Only the player can enter the end level transition
         {
-            string saveFolderPath = Application.persistentDataPath;
+            loadManager.SavePositions();
+            loadManager.SaveInventory();
+            if (NextScene == "StartScene")
+            {
+                string saveFolderPath = Application.persistentDataPath;
 
-            if (Directory.Exists(saveFolderPath))
-            {
-                Directory.Delete(saveFolderPath, true); // 'true' ensures all contents are deleted
-                Debug.Log($"Save folder deleted: {saveFolderPath}");
+                if (Directory.Exists(saveFolderPath))
+                {
+                    Directory.Delete(saveFolderPath, true); // 'true' ensures all contents are deleted
+                    Debug.Log($"Save folder deleted: {saveFolderPath}");
+                }
+                else
+                {
+                    Debug.LogWarning($"Save folder not found: {saveFolderPath}");
+                }
             }
-            else
-            {
-                Debug.LogWarning($"Save folder not found: {saveFolderPath}");
-            }
+            SceneController.ChangeScene(NextScene);
         }
-        SceneController.ChangeScene(NextScene);
     }
 }
