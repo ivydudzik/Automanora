@@ -30,12 +30,18 @@ public class PlayerMovement : MonoBehaviour
     private GameObject equippedItem = null;
     public LoadManager loadManager;
 
+    ParticleSystem movementParticles;
+    public int particleCountWalk = 5;
+    public int particleCountRun = 10;
+
     // Start is called before the first frame update
     void Start()
     {
         Controller = GetComponent<CharacterController>();
         inventory.ItemUsed += Inventory_ItemUsed;
-        inventory.ItemRemoved += Inventory_ItemRemoved;   
+        inventory.ItemRemoved += Inventory_ItemRemoved;
+
+        movementParticles = GetComponent<ParticleSystem>();
     }
 
     private void Inventory_ItemUsed(object sender, InventoryEventArgs e)
@@ -141,6 +147,30 @@ public class PlayerMovement : MonoBehaviour
         Vector3 MoveVector = transform.TransformDirection(PlayerInput);
         float CurrentSpeed = Input.GetKey(KeyCode.LeftShift) ? RunSpeed : WalkSpeed;    // Hold shift to run
 
+        //particle handling
+        
+        //old rotation code. I couldn't find a proper way to make it face the opposite direction in a short amount of time, so I modified it to just spawn in a circle area with no velocity instead
+        /*
+        var myShape = movementParticles.shape;
+        //Set the rotation based on the angle determined by the moveVector
+        //myShape.rotation = new Vector3(90,0,Mathf.Atan((MoveVector.z/(MoveVector.x==0 ? 1 : MoveVector.x)))*180/Mathf.PI);
+        //myShape.rotation = -1 * MoveVector * 360;
+        //myShape.rotation = new Vector3(90, -1 * MoveVector.x * 360);
+        myShape.rotation = new Vector3(90,Mathf.Atan((MoveVector.z/(MoveVector.x==0 ? 1 : MoveVector.x)))*180/Mathf.PI,0);
+        Debug.Log(MoveVector.magnitude);
+        */
+        var myEmission = movementParticles.emission;
+        if (MoveVector.magnitude < 0.5f)
+            myEmission.rateOverTime = 0;
+        else
+        {
+            if(!Input.GetKey(KeyCode.LeftShift)) //not running, ie walking
+                myEmission.rateOverTime = particleCountWalk;
+            else
+                myEmission.rateOverTime = particleCountRun;
+        }
+
+
         CurrentMoveVelocity = Vector3.SmoothDamp(
             CurrentMoveVelocity, 
             MoveVector * CurrentSpeed,
@@ -152,6 +182,7 @@ public class PlayerMovement : MonoBehaviour
 
         Ray groundCheckRay = new Ray(transform.position, Vector3.down);
         if (Physics.Raycast(groundCheckRay, 1.1f)){
+            //movementParticles.Play(); //on ground, run particles
             CurrentForceVelocity.y = -2f;   //constant force appplied to th player for slopes
 
             if (Input.GetKey(KeyCode.Space)){
@@ -160,6 +191,8 @@ public class PlayerMovement : MonoBehaviour
         }
         else{
             CurrentForceVelocity.y -= GravityStrength * Time.deltaTime;
+
+            myEmission.rateOverTime = 0; //not on ground, stop particles. overrides previous lines setting rate
         }
 
         Controller.Move(CurrentForceVelocity * Time.deltaTime);
