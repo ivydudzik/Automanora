@@ -12,6 +12,7 @@ public class InventoryInputHandler : MonoBehaviour
             IInventoryItem selectedItem = hud.GetSelectedItem();
             if (selectedItem != null)
             {
+                AudioManager.Instance.PlaySound("BatteryDrop");
                 inventory.RemoveItem(selectedItem);
                 selectedItem.OnDrop();
             }
@@ -19,11 +20,13 @@ public class InventoryInputHandler : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q)) // Navigate left
         {
+            AudioManager.Instance.PlaySound("SwapItem");
             hud.ChangeSelectedSlot(-1);
         }
 
         if (Input.GetKeyDown(KeyCode.E)) // Navigate right
         {
+            AudioManager.Instance.PlaySound("SwapItem");
             hud.ChangeSelectedSlot(1);
         }
     }
