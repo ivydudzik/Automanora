@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using System.Collections;
+using TMPro;
 
 
 public class MainMenuManager : MonoBehaviour
@@ -13,6 +14,7 @@ public class MainMenuManager : MonoBehaviour
     // Menu Container
     VisualElement menuContainer;
     IngameSettingsManager SettingsManager;
+    [SerializeField] GameObject CreditsText;
 
     private bool optionsVisible = false;
 
@@ -53,6 +55,8 @@ public class MainMenuManager : MonoBehaviour
         menuContainer.Q<Button>("StartB").RegisterCallback<MouseUpEvent>((evt) => StartCoroutine(StartGame()));
         menuContainer.Q<VisualElement>("FadeBlocker").style.visibility = Visibility.Hidden;
         menuContainer.Q<Button>("OptionsB").RegisterCallback<MouseUpEvent>((evt) => StartCoroutine(ToggleOptions()));
+        menuContainer.Q<Button>("CreditsB").RegisterCallback<MouseUpEvent>((evt) => StartCoroutine(DoCreditsScene()));
+        menuContainer.Q<Button>("DoneB").RegisterCallback<MouseUpEvent>((evt) => StartCoroutine(StopCredits()));
         menuContainer.Q<Button>("ApplyB").RegisterCallback<MouseUpEvent>((evt) => SettingsManager.ApplySettings());
 
 
@@ -79,11 +83,34 @@ public class MainMenuManager : MonoBehaviour
             yield return null;
         }
     }
+    private IEnumerator DoCreditsScene()
+    {
+        yield return StartCoroutine(FBIn());
+        menuContainer.Q<VisualElement>("MM").style.display = DisplayStyle.None;
+        menuContainer.Q<VisualElement>("OPT").style.display = DisplayStyle.None;
+        menuContainer.Q<VisualElement>("OptionsB").style.display = DisplayStyle.None;
+        menuContainer.Q<VisualElement>("CRED").style.display = DisplayStyle.Flex;
+        yield return StartCoroutine(FBOut());
+        CreditsText.transform.localPosition = new(0, -480);
+        CreditsText.SetActive(true);
+    }
+    private IEnumerator StopCredits()
+    {
+        yield return StartCoroutine(FBIn());
+        CreditsText.SetActive(false);
+        menuContainer.Q<VisualElement>("MM").style.display = DisplayStyle.Flex;
+        menuContainer.Q<VisualElement>("OPT").style.display = DisplayStyle.None;
+        menuContainer.Q<VisualElement>("OptionsB").style.display = DisplayStyle.Flex;
+        menuContainer.Q<VisualElement>("CRED").style.display = DisplayStyle.None;
+        yield return StartCoroutine(FBOut());
+    }
     private IEnumerator ToggleOptions()
     {
         if (!optionsVisible)
         {
             yield return StartCoroutine(FBIn(0.01f));
+            menuContainer.Q<VisualElement>("CRED").style.display = DisplayStyle.None;
+            menuContainer.Q<VisualElement>("OptionsB").style.display = DisplayStyle.Flex;
             menuContainer.Q<VisualElement>("MM").style.display = DisplayStyle.None;
             menuContainer.Q<VisualElement>("OPT").style.display = DisplayStyle.Flex;
             yield return StartCoroutine(FBOut(0.01f));
@@ -91,6 +118,8 @@ public class MainMenuManager : MonoBehaviour
         else
         {
             yield return StartCoroutine(FBIn(0.01f));
+            menuContainer.Q<VisualElement>("CRED").style.display = DisplayStyle.None;
+            menuContainer.Q<VisualElement>("OptionsB").style.display = DisplayStyle.Flex;
             menuContainer.Q<VisualElement>("MM").style.display = DisplayStyle.Flex;
             menuContainer.Q<VisualElement>("OPT").style.display = DisplayStyle.None;
             yield return StartCoroutine(FBOut(0.01f));
