@@ -8,7 +8,7 @@ public class PlayerMover : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") || other.CompareTag("Battery"))
+        if (other.CompareTag("Player"))// || other.CompareTag("Battery"))
         {
             other.gameObject.transform.SetParent(transform);
         }
@@ -16,7 +16,7 @@ public class PlayerMover : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player") || other.CompareTag("Battery"))
+        if (other.CompareTag("Player"))// || other.CompareTag("Battery"))
         {
             other.gameObject.transform.parent = null;
         }
