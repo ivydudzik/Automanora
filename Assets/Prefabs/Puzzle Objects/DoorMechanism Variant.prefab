@@ -230,6 +230,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5098669220671693421, guid: 86dd18248fc9ba14e88ec6ebbc27e343,
         type: 3}
+      propertyPath: powerOnSound
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5098669220671693421, guid: 86dd18248fc9ba14e88ec6ebbc27e343,
+        type: 3}
+      propertyPath: powerOffSound
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5098669220671693421, guid: 86dd18248fc9ba14e88ec6ebbc27e343,
+        type: 3}
       propertyPath: requiredEnergy
       value: 5
       objectReference: {fileID: 0}
