@@ -37,6 +37,12 @@ public class LoadManager : MonoBehaviour
         LoadInventory();
     }
 
+    private void OnApplicationQuit()
+    {
+        SavePositions();
+        SaveInventory();
+    }
+
 
     public void SavePositions()
     {

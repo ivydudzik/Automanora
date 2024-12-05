@@ -2942,6 +2942,16 @@ PrefabInstance:
       propertyPath: NextScene
       value: EndFinalLevel
       objectReference: {fileID: 0}
+    - target: {fileID: 2353550343571314472, guid: a760ca9bb79c11247b88fde12a544862,
+        type: 3}
+      propertyPath: loadManager
+      value: 
+      objectReference: {fileID: 1791581240}
+    - target: {fileID: 2353550343571314472, guid: a760ca9bb79c11247b88fde12a544862,
+        type: 3}
+      propertyPath: SceneController
+      value: 
+      objectReference: {fileID: 775645571}
     - target: {fileID: 4292437417492179452, guid: a760ca9bb79c11247b88fde12a544862,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -4009,6 +4019,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea92ba502bd3e2e4693494f8056e5c94, type: 3}
+--- !u!114 &775645571 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6396935507958560530, guid: ea92ba502bd3e2e4693494f8056e5c94,
+    type: 3}
+  m_PrefabInstance: {fileID: 775645570}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff9ed5e879256cf4dac9ec3830ca3c07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &778454778
 GameObject:
   m_ObjectHideFlags: 0
@@ -5562,6 +5584,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BatteryObject (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6994400537985006677, guid: b481126707972b74ab8d538d1927a43c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10941,6 +10968,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5497269052788264148, guid: 56559165f9a16ca40afb61dd9d91a2bb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

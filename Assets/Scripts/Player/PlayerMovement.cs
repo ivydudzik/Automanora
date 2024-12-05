@@ -30,7 +30,6 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 CurrentForceVelocity;
 
     private GameObject equippedItem = null;
-    public LoadManager loadManager;
 
     ParticleSystem movementParticles;
     public int particleCountWalk = 5;
@@ -256,7 +255,7 @@ public class PlayerMovement : MonoBehaviour
             pickUpDebugFlag = false;
         }
 
-        //* MANUAL SCENE CHANGE TESTING
+        /* MANUAL SCENE CHANGE TESTING
         if (Input.GetKeyDown(KeyCode.O))
         {
             loadManager.SavePositions();
@@ -271,7 +270,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("error");
             SceneManager.LoadScene(2);
         }
-        //*/
+        */
 
     }
 }

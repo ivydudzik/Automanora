@@ -3554,6 +3554,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2353550343571314472, guid: a760ca9bb79c11247b88fde12a544862,
         type: 3}
+      propertyPath: loadManager
+      value: 
+      objectReference: {fileID: 1791581240}
+    - target: {fileID: 2353550343571314472, guid: a760ca9bb79c11247b88fde12a544862,
+        type: 3}
       propertyPath: SceneController
       value: 
       objectReference: {fileID: 456297941}
@@ -10958,6 +10963,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3245933559881179306, guid: 56559165f9a16ca40afb61dd9d91a2bb,
         type: 3}
+      propertyPath: RunSpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3245933559881179306, guid: 56559165f9a16ca40afb61dd9d91a2bb,
+        type: 3}
+      propertyPath: WalkSpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3245933559881179306, guid: 56559165f9a16ca40afb61dd9d91a2bb,
+        type: 3}
       propertyPath: inventory
       value: 
       objectReference: {fileID: 1982762426}
@@ -10966,6 +10981,21 @@ PrefabInstance:
       propertyPath: loadManager
       value: 
       objectReference: {fileID: 1791581240}
+    - target: {fileID: 3245933559881179306, guid: 56559165f9a16ca40afb61dd9d91a2bb,
+        type: 3}
+      propertyPath: JumpStrength
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3245933559881179306, guid: 56559165f9a16ca40afb61dd9d91a2bb,
+        type: 3}
+      propertyPath: MoveSmoothTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3245933559881179306, guid: 56559165f9a16ca40afb61dd9d91a2bb,
+        type: 3}
+      propertyPath: GravityStrength
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4007171663393101763, guid: 56559165f9a16ca40afb61dd9d91a2bb,
         type: 3}
       propertyPath: PlayerCamera
@@ -10982,7 +11012,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 3245933559881179306, guid: 56559165f9a16ca40afb61dd9d91a2bb, type: 3}
     - {fileID: 4007171663393101763, guid: 56559165f9a16ca40afb61dd9d91a2bb, type: 3}
     m_RemovedGameObjects:
     - {fileID: 7894154483671789382, guid: 56559165f9a16ca40afb61dd9d91a2bb, type: 3}
@@ -11001,6 +11030,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2000065740}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2000065753 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3245933559881179306, guid: 56559165f9a16ca40afb61dd9d91a2bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 2000065740}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2000065741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54066dc179708494188fea9bac38bbc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2007190374
 GameObject:
   m_ObjectHideFlags: 0
@@ -11801,7 +11842,7 @@ PrefabInstance:
         type: 3}
       propertyPath: playerMovement
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2000065753}
     - target: {fileID: 2309414010436581401, guid: e12cfa5fc94d03e4eb2406a5bddd17da,
         type: 3}
       propertyPath: inventoryManager
