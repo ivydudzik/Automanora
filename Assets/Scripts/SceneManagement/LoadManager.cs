@@ -32,17 +32,52 @@ public class LoadManager : MonoBehaviour
         // Set the base file path (scene-specific path is derived from this)
         baseFilePath = Path.Combine(Application.persistentDataPath, "SceneData_");
 
-        // Load positions for the current scene
-        LoadPositions();
-        LoadInventory();
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            LoadPositions();
+            LoadInventory();
+        }
     }
 
     private void OnApplicationQuit()
     {
-        SavePositions();
-        SaveInventory();
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            SaveCurrentScene();
+            SavePositions();
+            SaveInventory();
+        }
     }
 
+    private void SaveCurrentScene()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+        string sceneFilePath = GetLastSceneFilePath();
+        File.WriteAllText(sceneFilePath, sceneName);
+        Debug.Log("Saved current scene: " + sceneName);
+    }
+
+    private void LoadLastScene()
+    {
+        string sceneFilePath = GetLastSceneFilePath();
+        if (File.Exists(sceneFilePath))
+        {
+            string lastSceneName = File.ReadAllText(sceneFilePath);
+            Debug.Log("Last scene loaded: " + lastSceneName);
+
+            // Optionally, you can check if the loaded scene matches the current one
+            // and handle transitioning to the saved scene if necessary.
+        }
+        else
+        {
+            Debug.LogWarning("No last scene file found. Starting in the current scene.");
+        }
+    }
+
+    private string GetLastSceneFilePath()
+    {
+        return Path.Combine(Application.persistentDataPath, "LastScene.txt");
+    }
 
     public void SavePositions()
     {
@@ -70,13 +105,11 @@ public class LoadManager : MonoBehaviour
     public void SaveInventory()
     {
         int invCount = inventoryManager.getInventory();
-        if(invCount != 0)
+        if (invCount != 0)
         {
             string inventory = invCount.ToString();
             File.WriteAllText(GetInventoryFilePath(), inventory);
         }
-
-
     }
 
     private void LoadPositions()
@@ -89,7 +122,6 @@ public class LoadManager : MonoBehaviour
 
             foreach (ObjectData data in wrapper.Data)
             {
-                // Find the object by name and apply saved transform data
                 GameObject obj = objectsToSave.Find(o => o.name == data.name);
 
                 if (obj != null)
@@ -110,6 +142,7 @@ public class LoadManager : MonoBehaviour
             Debug.LogWarning("Save file not found at " + sceneFilePath + ". Using default positions.");
         }
     }
+
     private void LoadInventory()
     {
         string inventoryFilePath = GetInventoryFilePath();
@@ -134,10 +167,10 @@ public class LoadManager : MonoBehaviour
 
     private string GetSceneFilePath()
     {
-        // Include scene name in the file name for scene-specific saving
         string sceneName = SceneManager.GetActiveScene().name;
         return baseFilePath + sceneName + ".json";
     }
+
     private string GetInventoryFilePath()
     {
         return baseFilePath + "inventory.json";

@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using System.Collections;
 using TMPro;
+using System.IO;
 
 
 public class MainMenuManager : MonoBehaviour
@@ -77,10 +78,23 @@ public class MainMenuManager : MonoBehaviour
     {
         yield return StartCoroutine(FBIn());
         // Start the scene in the 2nd spot in the build settings list
-        AsyncOperation asyncload = SceneManager.LoadSceneAsync(1);
-        while (!asyncload.isDone)
+        string sceneFilePath = Path.Combine(Application.persistentDataPath, "LastScene.txt");
+        if (File.Exists(sceneFilePath))
         {
-            yield return null;
+            string lastSceneName = File.ReadAllText(sceneFilePath);
+            AsyncOperation asyncload = SceneManager.LoadSceneAsync(lastSceneName);
+            while (!asyncload.isDone)
+            {
+                yield return null;
+            }
+        }
+        else
+        {
+            AsyncOperation asyncload = SceneManager.LoadSceneAsync(1);
+            while (!asyncload.isDone)
+            {
+                yield return null;
+            }
         }
     }
     private IEnumerator DoCreditsScene()
